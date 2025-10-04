@@ -17,12 +17,14 @@ jobs:
               run: |
                   # Create font directory
                   mkdir -p ~/.local/share/fonts/SourceSansPro
-                  # Download SourceSansPro fonts from Adobe's GitHub repository
+                  # Download SourceSansPro fonts using curl (more reliable than wget)
                   cd ~/.local/share/fonts/SourceSansPro
-                  wget -q https://github.com/adobe-fonts/source-sans-pro/releases/download/3.046R/OTF-source-sans-pro-3.046R.zip
-                  unzip -q OTF-source-sans-pro-3.046R.zip
+                  curl -L -o source-sans-pro.zip "https://github.com/adobe-fonts/source-sans/releases/download/3.052R/OTF-source-sans-3.052R.zip"
+                  unzip -q source-sans-pro.zip
+                  # Copy the actual font files
+                  cp source-sans-pro-3.046R/OTF/*.otf .
                   # Update font cache
-                  fc-cache -fv
+                  fc-cache -fv ~/.local/share/fonts/
             - name: Build LaTeX document
               uses: dante-ev/latex-action@latest
               with:
