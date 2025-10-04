@@ -13,18 +13,6 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-            - name: Install SourceSansPro fonts
-              run: |
-                  # Create font directory
-                  mkdir -p ~/.local/share/fonts/SourceSansPro
-                  # Download SourceSansPro fonts using curl (more reliable than wget)
-                  cd ~/.local/share/fonts/SourceSansPro
-                  curl -L -o source-sans-pro.zip "https://github.com/adobe-fonts/source-sans/releases/download/3.052R/OTF-source-sans-3.052R.zip"
-                  unzip -q source-sans-pro.zip
-                  # Copy the actual font files
-                  cp source-sans-pro-3.052R/OTF/*.otf .
-                  # Update font cache
-                  fc-cache -fv ~/.local/share/fonts/
             - name: Build LaTeX document
               uses: dante-ev/latex-action@latest
               with:
