@@ -24,4 +24,4 @@ jobs:
                   git config --local user.name "GitHub Action"
                   git add cv.pdf
                   git diff --staged --quiet || git commit -m "robot: Update compiled CV [skip ci]"
-                  git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/joshmtlau/cv.git
+                  git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/joshmtlau/curriculum_vitae.git
