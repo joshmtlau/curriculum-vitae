@@ -1,7 +1,13 @@
 # Curriculum Vitae
 
-This CV is formatted using the [Awesome CV](https://github.com/posquit0/Awesome-CV) template.
-It is compiled using the Docker image `dante-ev/latex-action`. The PDF may not
+This is the CV of Mu-Te Lau, formatted using the [Awesome CV](https://github.com/posquit0/Awesome-CV) template.
+
+The GitHub Actions workflow automatically compiles the CV and push the
+compiled PDF to the `pdf` branch.
+You can view the compiled PDF [here](https://joshmtlau.github.io/curriculum_vitae/pdf/cv.pdf).
+
+# Building
+The CV is compiled using the Docker image `dante-ev/latex-action`. The PDF may not
 be rendered correctly if using another LaTeX compiler.
 
 Assuming you have Docker installed, you can compile the CV by running:
@@ -20,6 +26,4 @@ clear the LaTeX cache by running:
 docker run --rm -v $(pwd):/workdir danteev/texlive latexmk -xelatex -c cv.tex
 ```
 
-The GitHub Actions workflow will automatically compile the CV and push the
-compiled PDF to the `pdf` branch.
-You can then view the compiled PDF [here](https://joshmtlau.github.io/curriculum_vitae/pdf/cv.pdf).
+
