@@ -22,7 +22,7 @@ jobs:
                   curl -L -o source-sans-pro.zip "https://github.com/adobe-fonts/source-sans/releases/download/3.052R/OTF-source-sans-3.052R.zip"
                   unzip -q source-sans-pro.zip
                   # Copy the actual font files
-                  cp source-sans-pro-3.046R/OTF/*.otf .
+                  cp source-sans-pro-3.052R/OTF/*.otf .
                   # Update font cache
                   fc-cache -fv ~/.local/share/fonts/
             - name: Build LaTeX document
