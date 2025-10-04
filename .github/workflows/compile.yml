@@ -11,8 +11,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
             - name: Compile LaTeX
               uses: xu-cheng/latex-action@v4
               with:
@@ -25,3 +23,5 @@ jobs:
                   git add cv.pdf
                   git diff --staged --quiet || git commit -m "robot: Update compiled CV [skip ci]"
                   git push
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
