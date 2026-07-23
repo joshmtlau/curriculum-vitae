@@ -9,10 +9,13 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
         steps:
             - uses: actions/checkout@v4
               with:
-                  token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                  fetch-depth: 0
+                  persist-credentials: false
             - name: Build LaTeX document
               uses: dante-ev/latex-action@latest
               with:
@@ -25,21 +28,27 @@ jobs:
                   path: cv.pdf
             - name: Commit PDF to PDF branch
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   cp cv.pdf /tmp/cv.pdf
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "GitHub Action"
-                  git fetch origin pdf
-                  git checkout pdf || git checkout --orphan pdf
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "github-actions[bot]"
+                  git fetch origin pdf || true
+                  if git show-ref --verify --quiet refs/remotes/origin/pdf; then
+                    git switch --create pdf --track origin/pdf
+                  else
+                    git switch --orphan pdf
+                  fi
                   cp /tmp/cv.pdf cv.pdf
                   git add cv.pdf
                   git diff --staged --quiet || git commit -m "robot: Update compiled CV [skip ci]"
-                  git push origin pdf
+                  git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" pdf
 
             - name: Sync PDF to website
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               env:
-                  TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                  TOKEN: ${{ secrets.GH_PAGES_PUSH_TOKEN }}
               run: |
                   git clone --depth 1 \
                     "https://x-access-token:${TOKEN}@github.com/joshmtlau/joshmtlau.github.io.git" site
